@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -9,25 +9,20 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class NaverShoppingManager(models.Manager):
-    """네이버 manager"""
-
-    def get_queryset(self):
-        return Product.objects.filter(id__gte=5)
-
-
 class NaverShopping(BaseModel):
     title = models.CharField(max_length=100, verbose_name="네이버 상품명")
     price = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="가격")
-    product = models.ForeignKey("Product", related_name='products', on_delete=models.CASCADE)
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
 
     class Meta:
         db_table = "naver_shopping"
+        verbose_name_plural = "네이버 쇼핑 연동"
 
     def save(self, *args, **kwargs):
         self.title = self.product.name
         super(NaverShopping, self).save(*args, **kwargs)
-
+        self.full_clean()
+        print(11)
 
 class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name="상품명")
