@@ -3,7 +3,7 @@ from core.models import Product, NaverShopping
 from django_reverse_admin import ReverseModelAdmin
 
 admin.site.site_header = '네이버 쇼핑 연동 관리자 페이지'
-admin.site.index_title = '관리자 홈'                 # default: "Site administration"
+admin.site.index_title = '관리자 홈'
 
 
 @admin.register(Product)
@@ -12,26 +12,23 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class NaverShoppingAdmin(ReverseModelAdmin):
+    """
+    어드민에서 네이버 쇼핑 품목 관리
+    """
+
     model = NaverShopping
     fields = ('title', 'price')
     search_fields = ('title',)
-#    autocomplete_fields = ('product',)
-    list_display = ("id", "titles", )
-    inline_type = 'stacked'  # or could be 'tabular'
+    list_display = ("id", "title", )
+
+    inline_type = 'stacked'
     inline_reverse = [
         ('product',
             {'fields': ['name', 'price', ],
              'readonly_fields': ['name', 'price', 'product', ],
              },
          )
-
     ]
-
-    def titles(self, obj):
-        print(obj)
-        print(type(obj))
-        return "hihihi:w"
-        # return ",".join([k.title for k in obj.products.all()])
 
     def has_delete_permission(self, request, obj=None):
         # 어드민 Action 삭제 기능 disable

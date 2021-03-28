@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -21,8 +22,7 @@ class NaverShopping(BaseModel):
     def save(self, *args, **kwargs):
         self.title = self.product.name
         super(NaverShopping, self).save(*args, **kwargs)
-        self.full_clean()
-        print(11)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name="상품명")
