@@ -17,7 +17,7 @@ class NaverShoppingAdmin(ReverseModelAdmin):
     """
 
     model = NaverShopping
-    fields = ('title', 'price')
+    fields = ('title', 'price_pc')
     search_fields = ('title',)
     list_display = ("id", "title", )
 
