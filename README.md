@@ -18,6 +18,7 @@
 ### 3. 새로 시도해보는 기능
  - ReverseModelAdmin 모듈
    (reverse FK Model)
+   <br> pip install django_reverse_admin
    
  - python manage.py squashmigrations 
  - git rebase -i {branch} HEAD~
